@@ -45,7 +45,10 @@ class DataIngestion:
         :param embeddings: The embeddings to be sent to a vector store.
         :return: A status indicating success or failure.
         """
-        docsearch = Pinecone.from_documents(documents, embeddings, index_name=self.index_name)
+        docsearch = Pinecone.from_documents(documents, embeddings,
+                                            index_name=self.index_name,
+                                            namespace="pdf-first-version",
+                                            )
         # Code to send the embeddings to a Pinecone vector store
         return "success"  # Return a status indicating success or failure
 
@@ -57,8 +60,8 @@ class DataIngestion:
         :return: A status indicating success or failure.
         """
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=100,
-            chunk_overlap=20,
+            chunk_size=1000,
+            chunk_overlap=200,
             length_function=len,
         )
         pages: List[Document] = self.read_pdf(pdf_file, text_splitter)
