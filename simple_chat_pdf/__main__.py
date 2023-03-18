@@ -1,4 +1,4 @@
-"""Entry point for project_name."""
+"""Entry point for simple_chat_pdf."""
 
 from .cli import main  # pragma: no cover
 
