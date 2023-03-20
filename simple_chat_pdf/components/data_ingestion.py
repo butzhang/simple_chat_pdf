@@ -6,12 +6,12 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter, TextSplitter
 from langchain.vectorstores import Pinecone
 import pinecone
 from langchain.embeddings.base import Embeddings
+from simple_chat_pdf.constant import PINECONE_API_KEY, VECTOR_QUERY_NAME_SPACE, PINECONE_ENVIRONMENT, OPENAI_API_KEY, PINE_CONE_INDEX_NAME
 
 class DataIngestion:
-    def __init__(self, pinecone_api_key: str, pinecone_environment: str, openai_api_key: str):
-        self.embeddings: OpenAIEmbeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
-        pinecone.init(api_key=pinecone_api_key, environment=pinecone_environment)
-        self.index_name = "langchain-demo"
+    def __init__(self):
+        self.embeddings: OpenAIEmbeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
+        pinecone.init(api_key=PINECONE_API_KEY, environment=PINECONE_ENVIRONMENT)
 
     def read_pdf(self, pdf_file: str, text_splitter: Optional[TextSplitter] = None) -> List[Document]:
         """
@@ -46,8 +46,8 @@ class DataIngestion:
         :return: A status indicating success or failure.
         """
         docsearch = Pinecone.from_documents(documents, embeddings,
-                                            index_name=self.index_name,
-                                            namespace="pdf-first-version",
+                                            index_name=PINE_CONE_INDEX_NAME,
+                                            namespace=VECTOR_QUERY_NAME_SPACE,
                                             )
         # Code to send the embeddings to a Pinecone vector store
         return "success"  # Return a status indicating success or failure
@@ -61,8 +61,7 @@ class DataIngestion:
         """
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=1000,
-            chunk_overlap=200,
-            length_function=len,
+            chunk_overlap=200
         )
         pages: List[Document] = self.read_pdf(pdf_file, text_splitter)
         status = self.send_embeddings_to_vector_store(pages, self.embeddings)

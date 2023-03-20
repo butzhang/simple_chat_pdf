@@ -11,3 +11,6 @@ pypdf
 pinecone-client
 openai
 ipython
+# nomic
+# chromadb
+faiss-cpu
