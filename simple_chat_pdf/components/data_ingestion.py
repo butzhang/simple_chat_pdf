@@ -63,6 +63,7 @@ class DataIngestion:
             chunk_size=1000,
             chunk_overlap=200
         )
+        introduce_an_bug
         pages: List[Document] = self.read_pdf(pdf_file, text_splitter)
         status = self.send_embeddings_to_vector_store(pages, self.embeddings)
         return status
