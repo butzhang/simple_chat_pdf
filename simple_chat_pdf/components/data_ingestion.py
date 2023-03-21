@@ -66,3 +66,8 @@ class DataIngestion:
         pages: List[Document] = self.read_pdf(pdf_file, text_splitter)
         status = self.send_embeddings_to_vector_store(pages, self.embeddings)
         return status
+    
+    
+def test_function():
+    print("test_function")
+    return "test_function"
